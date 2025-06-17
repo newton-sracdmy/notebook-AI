@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, AppBar as MuiAppBar, Toolbar, Typography, Button, IconButton, Avatar } from '@mui/material';
+import { Box, AppBar as MuiAppBar, Toolbar, Typography, Button, IconButton, Avatar, Divider } from '@mui/material';
 import { Share, Settings } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +12,8 @@ import mockData from './data/mockData';
 const NotebookLMInterface = () => {
   const [chatInput, setChatInput] = useState('');
   const [sources, setSources] = useState(mockData.notebook.sources);
+  const [isSourcesCollapsed, setIsSourcesCollapsed] = useState(false);
+  const [isStudioCollapsed, setIsStudioCollapsed] = useState(false);
 
   const handleUploadSource = () => {
     console.log('Upload source clicked');
@@ -88,14 +90,26 @@ const NotebookLMInterface = () => {
           </Toolbar>
         </MuiAppBar>
         <Box sx={{ display: 'flex', flexGrow: 1 }}>
-          <SourcesPanel />
+          <SourcesPanel
+            isCollapsed={isSourcesCollapsed}
+            onToggle={() => setIsSourcesCollapsed(!isSourcesCollapsed)}
+          />
+          <Divider orientation="vertical" flexItem sx={{ borderColor: '#e0e0e0' }} />
           <ChatPanel
             chatInput={chatInput}
             setChatInput={setChatInput}
             handleUploadSource={handleUploadSource}
             handleSendMessage={handleSendMessage}
+            sx={{
+              flexGrow: isSourcesCollapsed && isStudioCollapsed ? 1 : 0,
+              width: isSourcesCollapsed && isStudioCollapsed ? '100%' : 'auto',
+            }}
           />
-          <StudioPanel />
+          <Divider orientation="vertical" flexItem sx={{ borderColor: '#e0e0e0' }} />
+          <StudioPanel
+            isCollapsed={isStudioCollapsed}
+            onToggle={() => setIsStudioCollapsed(!isStudioCollapsed)}
+          />
         </Box>
       </Box>
     </ThemeProvider>
