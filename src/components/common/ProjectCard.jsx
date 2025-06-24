@@ -21,7 +21,14 @@ const ProjectCard = ({ item }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+      <CardContent
+        sx={{
+          p: 2,
+          width: '220px',        
+         // minHeight: '20px',   
+          '&:last-child': { pb: 2 },
+        }}
+      >
         <Typography
           variant="body2"
           sx={{

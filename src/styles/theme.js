@@ -11,8 +11,8 @@ const theme = createTheme({
       paper: '#ffffff',
     },
   },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+   typography: {
+    fontFamily: `'Roboto Mono', monospace`,
   },
 });
 
