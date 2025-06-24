@@ -1,8 +1,12 @@
-import { Box, Typography, Paper, Button, Divider } from '@mui/material';
-import { Settings, PersonAdd, MoreHoriz } from '@mui/icons-material'; // Changed to MoreHoriz
+import { Box, Typography, Paper, Button, Drawer, IconButton } from '@mui/material';
+import { Settings, PersonAdd, Menu, Close, MoreHoriz } from '@mui/icons-material';
 import ShareIcon from '@mui/icons-material/Share';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import BorderAllIcon from '@mui/icons-material/BorderAll';
+import GridViewIcon from '@mui/icons-material/GridView';
+import DescriptionIcon from '@mui/icons-material/Description';
+import PeopleIcon from '@mui/icons-material/People';
+import { useState } from 'react';
 
 const boardData = {
   Ideas: [
@@ -51,10 +55,10 @@ const Column = ({ title, items }) => (
     elevation={0}
     sx={{
       background: '#fff',
-      border: '1px solidrgb(255, 255, 255)',
+      border: '1px solid rgb(255, 255, 255)',
       borderRadius: '20px',
       p: 2,
-      width: 225,
+      width: { xs: '100%', md: 225 },
       display: 'flex',
       flexDirection: 'column',
       boxShadow: '-1px 2px 44px -15px rgba(0, 0, 0, 0.3)',
@@ -97,7 +101,7 @@ const Column = ({ title, items }) => (
           }
         }}
       >
-        <Typography fontWeight={item? 600 : 600} color='#6F6F6F' fontSize="13px">
+        <Typography fontWeight={600} color='#6F6F6F' fontSize="13px">
           {item.text}
         </Typography>
       </Paper>
@@ -111,7 +115,7 @@ const Column = ({ title, items }) => (
         textAlign: 'center',
         border: '1px solid #e0e0e0',
         borderRadius: '6px',
-        backgroundColor:'#f9f9f9',
+        backgroundColor: '#f9f9f9',
         fontSize: '13px',
         color: '#9e9e9e',
         cursor: 'pointer',
@@ -126,41 +130,51 @@ const Column = ({ title, items }) => (
 );
 
 export default function NotebookLMUI() {
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const handleOpenDrawer = () => setOpenDrawer(true);
+  const handleCloseDrawer = () => setOpenDrawer(false);
+
   return (
-   <Box sx={{ display: 'flex', height: '100vh', pt: 4 }}>
+    <Box sx={{ display: 'flex', height: '100vh', pt: 4 }}>
       {/* Sidebar */}
-    <Box
+      <Box
         sx={{
-          width: 200,
+          width: { xs: 60, sm: 200 },
           background: '#ffffff',
-          borderRight: '1px solid #e0e0e0',
+          borderRight: { sm: '1px solid #e0e0e0', xs: 'none' },
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
           py: 7,
           px: 2,
+          transition: 'width 0.3s ease',
         }}
       >
         {/* Top section */}
-        <Box
-        >
+        <Box>
           {/* Projects Header */}
-          <Box display="flex" 
-          alignItems="center" 
-          gap={1} 
-          mb={1}
-          sx={{ 
-                px: 1.5,
-                py: 0.8,
-                mb: 1,
-                backgroundColor: '#f9f9f9',
-                borderRadius: '6px',
-                boxShadow: 'inset 0 0 0 1px #e0e0e0',
-                }}
-          
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              gap: { xs: 0, sm: 1 },
+              mb: 2,
+              px: { xs: 0.5, sm: 1.5 },
+              py: { xs: 0.5, sm: 0.8 },
+              backgroundColor: { xs: 'transparent', sm: '#f9f9f9' },
+              borderRadius: '6px',
+              boxShadow: { sm: 'inset 0 0 0 1px #e0e0e0', xs: 'none' },
+            }}
           >
-            <BorderAllIcon sx={{ fontSize: 16, color: '#757575' }} />
-            <Typography fontWeight={600} fontSize="14px" color="#757575" >
+            <BorderAllIcon sx={{ fontSize: { xs: 20, sm: 16 }, color: '#757575' }} />
+            <Typography
+              fontWeight={600}
+              fontSize={{ xs: 0, sm: '14px' }}
+              color="#757575"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
               Projects
             </Typography>
           </Box>
@@ -168,18 +182,28 @@ export default function NotebookLMUI() {
           {/* Drafts - Selected */}
           <Box
             sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              gap: { xs: 0, sm: 1 },
+              mb: 2,
+              px: { xs: 0.5, sm: 1.5 },
+              py: { xs: 0.5, sm: 0.8 },
               borderRadius: '6px',
-              px: 1.5,
-              py: 0.8,
-              mb: 1,
               fontWeight: 600,
-              fontSize: '16px',
+              fontSize: { xs: 0, sm: '16px' },
               color: '#757575',
               cursor: 'pointer',
-              ml: 1 // nested look
+              ml: { xs: 0, sm: 1 },
+              backgroundColor: { xs: 'transparent', sm: 'transparent' },
             }}
           >
-            Drafts
+            <DescriptionIcon sx={{ fontSize: { xs: 20, sm: 16 }, color: '#757575' }} />
+            <Typography
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+              Drafts
+            </Typography>
           </Box>
 
           {/* Shared With Me - Nested under Projects */}
@@ -187,31 +211,78 @@ export default function NotebookLMUI() {
             display="flex"
             alignItems="center"
             gap={1}
-            mb={1}
-            sx={{ cursor: 'pointer', ml: 2 }} 
+            mb={2}
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              gap: { xs: 0, sm: 1 },
+              px: { xs: 0.5, sm: 1.5 },
+              py: { xs: 0.5, sm: 0.8 },
+              cursor: 'pointer',
+              ml: { xs: 0, sm: 2 },
+              backgroundColor: { xs: 'transparent', sm: 'transparent' },
+            }}
           >
-            <Typography fontSize="13px" color="#757575"  sx={{ 
-              fontWeight: 600,
-              fontSize: '14px',}}>
+            <PeopleIcon sx={{ fontSize: { xs: 20, sm: 16 }, color: '#757575' }} />
+            <Typography
+              fontSize={{ xs: 0, sm: '13px' }}
+              color="#757575"
+              sx={{ fontWeight: 600, fontSize: { xs: 0, sm: '14px' }, display: { xs: 'none', sm: 'block' } }}
+            >
               Shared With Me
             </Typography>
           </Box>
         </Box>
 
         {/* Bottom Section */}
-        <Box mt={5}>
+        <Box mt={2}>
           {/* Settings */}
-          <Box display="flex" alignItems="center" gap={2} mb={2} sx={{ cursor: 'pointer' }}>
-            <Settings sx={{ fontSize: 16, color: '#616161' }} />
-            <Typography fontSize="13px" color="#616161">
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={1}
+            mb={2}
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              px: { xs: 0.5, sm: 2 },
+              py: { xs: 0.5, sm: 0 },
+              cursor: 'pointer',
+              backgroundColor: { xs: 'transparent', sm: 'transparent' },
+            }}
+          >
+            <Settings sx={{ fontSize: { xs: 20, sm: 16 }, color: '#616161' }} />
+            <Typography
+              fontSize={{ xs: 0, sm: '13px' }}
+              color="#616161"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
               Settings
             </Typography>
           </Box>
 
           {/* Invite Members */}
-          <Box display="flex" alignItems="center" gap={2} mb={2} sx={{ cursor: 'pointer' }}>
-            <PersonAdd sx={{ fontSize: 16, color: '#616161' }} />
-            <Typography fontSize="13px" color="#616161">
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={1}
+            mb={2}
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              px: { xs: 0.5, sm: 2 },
+              py: { xs: 0.5, sm: 0 },
+              cursor: 'pointer',
+              backgroundColor: { xs: 'transparent', sm: 'transparent' },
+            }}
+          >
+            <PersonAdd sx={{ fontSize: { xs: 20, sm: 16 }, color: '#616161' }} />
+            <Typography
+              fontSize={{ xs: 0, sm: '13px' }}
+              color="#616161"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
               Invite Members
             </Typography>
           </Box>
@@ -224,13 +295,14 @@ export default function NotebookLMUI() {
             sx={{
               mb: 1,
               textTransform: 'none',
-              fontSize: '13px',
+              fontSize: { xs: 0, sm: '13px' },
               borderColor: '#d0d0d0',
               color: '#444',
               backgroundColor: '#f9f9f9',
               '&:hover': {
                 backgroundColor: '#f4f4f4'
-              }
+              },
+              display: { xs: 'none', sm: 'block' },
             }}
           >
             New Draft
@@ -241,17 +313,28 @@ export default function NotebookLMUI() {
             size="small"
             sx={{
               textTransform: 'none',
-              fontSize: '13px',
+              fontSize: { xs: 0, sm: '13px' },
               borderColor: '#d0d0d0',
               color: '#444',
               backgroundColor: '#f9f9f9',
               '&:hover': {
                 backgroundColor: '#f4f4f4'
-              }
+              },
+              display: { xs: 'none', sm: 'block' },
             }}
           >
             New Project
           </Button>
+          {/* Add icon for New Draft/New Project on xs */}
+          <Box
+            sx={{
+              display: { xs: 'flex', sm: 'none' },
+              justifyContent: 'center',
+              mb: 1,
+            }}
+          >
+            <GridViewIcon sx={{ fontSize: 20, color: '#616161' }} />
+          </Box>
         </Box>
       </Box>
 
@@ -259,30 +342,30 @@ export default function NotebookLMUI() {
       <Box sx={{ flex: 1, backgroundColor: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
         {/* Top Navbar Strip with Window Controls */}
         <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: 48,
-          backgroundColor: '#ECECEC',
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
-          boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
-          display: 'flex',
-          alignItems: 'center',
-          zIndex: 1000,
-        }}
-      >
-        <WindowControls />
-      </Box>
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: { xs: 40, md: 48 },
+            backgroundColor: '#ECECEC',
+            borderTopLeftRadius: '8px',
+            borderTopRightRadius: '8px',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+        >
+          <WindowControls />
+        </Box>
         {/* Header */}
-        <Box sx={{ px: 4, py: 3.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box display="flex" alignItems="center" gap={1}>
-            <Typography fontWeight={800} fontSize="28px" color="#2f3437">
+        <Box sx={{ px: { xs: 2, md: 4 }, py: { xs: 2, md: 3.5 }, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: { xs: 'column', md: 'row' } }}>
+          <Box display="flex" alignItems="center" gap={1} mb={{ xs: 2, md: 0 }}>
+            <Typography fontWeight={800} fontSize={{ xs: 20, md: 28 }} color="#2f3437">
               Side Hustle
             </Typography>
-            <KeyboardArrowDownIcon sx={{ fontSize: 35, fontWeight: 900, color:"#2f3437" }} />
+            <KeyboardArrowDownIcon sx={{ fontSize: { xs: 25, md: 35 }, fontWeight: 900, color: "#2f3437" }} />
           </Box>
           <Box display="flex" alignItems="center" gap={1}>
             <ShareIcon sx={{ fontSize: 16, color: '#757575' }} />
@@ -296,7 +379,17 @@ export default function NotebookLMUI() {
             >
               Share
             </Typography>
-            <MoreHoriz sx={{ fontSize: 16, color: '#757575' }} /> {/* Horizontal 3-dot icon */}
+            <IconButton
+              sx={{ display: { xs: 'none', sm: 'flex' } }} 
+            >
+              <MoreHoriz sx={{ fontSize: 16, color: '#757575' }} />
+            </IconButton>
+            <IconButton
+              onClick={handleOpenDrawer}
+              sx={{ display: { xs: 'flex', sm: 'none' } }} 
+            >
+              <Menu sx={{ fontSize: 24, color: '#616161' }} />
+            </IconButton>
           </Box>
         </Box>
 
@@ -304,11 +397,12 @@ export default function NotebookLMUI() {
         <Box
           sx={{
             display: 'flex',
-            gap: 3,
-            px: 4,
+            gap: { xs: 1, md: 3 },
+            px: { xs: 2, md: 4 },
             pb: 4,
-            overflow: 'visible',
-            alignItems: 'flex-start'
+            overflowX: 'visible',
+            alignItems: 'flex-start',
+            flexWrap: 'wrap'
           }}
         >
           {Object.entries(boardData).map(([key, value]) => (
@@ -316,6 +410,95 @@ export default function NotebookLMUI() {
           ))}
         </Box>
       </Box>
+
+      {/* Drawer for Hamburger Menu on xs */}
+      <Drawer
+        anchor="right"
+        open={openDrawer}
+        onClose={handleCloseDrawer}
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+          '& .MuiDrawer-paper': {
+            width: 240,
+            backgroundColor: '#ffffff',
+            boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.2)',
+          },
+        }}
+      >
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            px:1
+          }}
+        >
+          <IconButton
+            onClick={handleCloseDrawer}
+            sx={{ alignSelf: 'flex-end', mb: 2 }}
+          >
+            <Close sx={{ fontSize: 20, color: '#616161' }} />
+          </IconButton>
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={1}
+            mb={1}
+            sx={{ cursor: 'pointer', px: 1 }}
+          >
+            <Settings sx={{ fontSize: 20, color: '#616161' }} />
+            <Typography fontSize="13px" color="#616161">
+              Settings
+            </Typography>
+          </Box>
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={1}
+            mb={1}
+            sx={{ cursor: 'pointer', px: 1 }}
+          >
+            <PersonAdd sx={{ fontSize: 20, color: '#616161' }} />
+            <Typography fontSize="13px" color="#616161">
+              Invite Members
+            </Typography>
+          </Box>
+          <Button
+            variant="outlined"
+            fullWidth
+            size="small"
+            sx={{
+              width: '90%',
+               mb: 1,
+              textTransform: 'none',
+              fontSize: '13px',
+              borderColor: '#d0d0d0',
+              color: '#444',
+              backgroundColor: '#f9f9f9',
+              '&:hover': { backgroundColor: '#f4f4f4' },
+            }}
+          >
+            New Draft
+          </Button>
+          <Button
+            variant="outlined"
+            fullWidth
+            size="small"
+            sx={{
+              width: '90%',
+              textTransform: 'none',
+              fontSize: '13px',
+              borderColor: '#d0d0d0',
+              color: '#444',
+              backgroundColor: '#f9f9f9',
+              '&:hover': { backgroundColor: '#f4f4f4' },
+            }}
+          >
+            New Project
+          </Button>
+        </Box>
+      </Drawer>
     </Box>
   );
 }
