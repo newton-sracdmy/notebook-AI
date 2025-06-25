@@ -1,7 +1,16 @@
 import { Box, Button, IconButton, Typography, Divider } from '@mui/material';
 import { Add, Search, Description, Menu } from '@mui/icons-material';
+import UploadSourceModal from './UploadSourceModal';
+import { useState } from 'react';
 
 const SourcesPanel = ({ isCollapsed, onToggle, isMobile }) => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+
   if (isMobile) {
     return (
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#f9f9f9' }}>
@@ -11,6 +20,7 @@ const SourcesPanel = ({ isCollapsed, onToggle, isMobile }) => {
             variant="outlined"
             size="small"
             sx={{ textTransform: 'none', flex: 1, borderColor: '#d0d0d0', backgroundColor: '#f9f9f9', color: '#aaa9aa' }}
+            onClick={handleOpenModal}
           >
             Add
           </Button>
@@ -57,6 +67,7 @@ const SourcesPanel = ({ isCollapsed, onToggle, isMobile }) => {
             NotebookLM can be inaccurate; please double check its responses.
           </Typography>
         </Box>
+         <UploadSourceModal open={isModalOpen} onClose={handleCloseModal} />
       </Box>
     );
   }
@@ -117,6 +128,7 @@ const SourcesPanel = ({ isCollapsed, onToggle, isMobile }) => {
               variant="outlined"
               size="small"
               sx={{ textTransform: 'none', flex: 1, borderColor: '#d0d0d0', backgroundColor: '#f9f9f9', color: '#aaa9aa' }}
+               onClick={handleOpenModal}
             >
               Add
             </Button>
@@ -131,6 +143,7 @@ const SourcesPanel = ({ isCollapsed, onToggle, isMobile }) => {
           </Box>
         </Box>
       )}
+       <UploadSourceModal open={isModalOpen} onClose={handleCloseModal} />
     </Box>
   );
 };
