@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Box, Button, IconButton, Typography, TextField, Divider } from '@mui/material';
 import { CloudUpload, Send } from '@mui/icons-material';
 import UploadSourceModal from './UploadSourceModal';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+
 const ChatPanel = ({ chatInput, setChatInput, handleSendMessage, isMobile }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +23,8 @@ const ChatPanel = ({ chatInput, setChatInput, handleSendMessage, isMobile }) => 
             p: 4,
           }}
         >
-          <CloudUpload sx={{ fontSize: 60, color: '#6F6F6F', mb: 3 }} />
+          
+          <FileUploadIcon sx={{ fontSize: 60, color: '#6F6F6F', mb: 3 }} />
           <Typography 
             variant="h5" 
             color='#6F6F6F' 
@@ -32,6 +35,7 @@ const ChatPanel = ({ chatInput, setChatInput, handleSendMessage, isMobile }) => 
           </Typography>
           <Button
             variant="contained"
+             onClick={handleOpenModal}
             sx={{
               textTransform: 'none',
               px: 3,
@@ -93,6 +97,7 @@ const ChatPanel = ({ chatInput, setChatInput, handleSendMessage, isMobile }) => 
             NotebookLM can be inaccurate; please double check its responses.
           </Typography>
         </Box>
+        <UploadSourceModal open={isModalOpen} onClose={handleCloseModal} />
       </Box>
     );
   }
@@ -122,7 +127,7 @@ const ChatPanel = ({ chatInput, setChatInput, handleSendMessage, isMobile }) => 
           p: 4,
         }}
       >
-        <CloudUpload sx={{ fontSize: 60, color:'#6F6F6F', mb: 3 }} />
+        <FileUploadIcon sx={{ fontSize: 60, color: '#6F6F6F', mb: 3 }} />
         <Typography variant="h5" color='#6F6F6F'  fontWeight={600} sx={{ mb: 2 }}>
           Add a source to get started
         </Typography>

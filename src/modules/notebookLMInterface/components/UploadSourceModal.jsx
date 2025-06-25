@@ -1,11 +1,17 @@
-import React, { useRef, useState } from 'react';
-import { Modal, Card, CardContent, Typography, Button, Box, Grid, IconButton, Stack, TextField } from '@mui/material';
-import { CloudUpload, Close } from '@mui/icons-material';
+
+import { useRef, useState } from 'react';
+import { Modal, Card, CardContent, Typography, Button, Box, Grid, IconButton, Stack, TextField, useTheme, useMediaQuery } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 const UploadSourceModal = ({ open, onClose }) => {
   const [subModal, setSubModal] = useState(null);
   const fileInputRefDocs = useRef(null);
   const fileInputRefSlides = useRef(null);
+  
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleFileUpload = (event, type) => {
     const file = event.target.files[0];
@@ -48,27 +54,32 @@ const UploadSourceModal = ({ open, onClose }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        p: isMobile ? 1 : 2,
       }}
     >
       {!subModal ? (
         <Card
           sx={{
-            width: 836,
-            p: 4,
+            width: isMobile ? '100%' : isTablet ? '90%' : 850,
+            maxWidth: '100vw',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            p: isMobile ? 2 : 4,
             borderRadius: 2,
             backgroundColor: '#ffffff',
             position: 'relative',
+            mx: isMobile ? 1 : 0,
           }}
         >
           <IconButton
             onClick={onClose}
-            sx={{ position: 'absolute', top: 8, right: 8 }}
+            sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}
           >
             <Close sx={{ fontSize: 20, color: '#757575' }} />
           </IconButton>
 
-          <CardContent>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <CardContent sx={{ p: 0 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, pr: 4 }}>
               <Box
                 sx={{
                   width: 24,
@@ -92,7 +103,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                 </Typography>
               </Box>
               <Typography
-                variant="h6"
+                variant={isMobile ? 'body1' : 'h6'}
                 fontWeight={600}
                 sx={{ color: '#040404' }}
               >
@@ -103,7 +114,7 @@ const UploadSourceModal = ({ open, onClose }) => {
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ mb: 4 }}
+              sx={{ mb: 4, pr: isMobile ? 0 : 4 }}
             >
               Sources let NotebookLM base its responses on the information
               that matters most to you. (Examples: marketing plans, course
@@ -115,16 +126,16 @@ const UploadSourceModal = ({ open, onClose }) => {
               sx={{
                 border: '2px dashed #e0e0e0',
                 borderRadius: 2,
-                p: 5,
+                p: isMobile ? 3 : 5,
                 textAlign: 'center',
                 mb: 4,
               }}
             >
-              <CloudUpload sx={{ fontSize: 40, color: '#6F6F6F', mb: 2 }} />
-              <Typography variant="body1" sx={{ mb: 1 }}>
+              <FileUploadIcon sx={{ fontSize: 40, color: '#6F6F6F', mb: 3 }} />
+              <Typography variant={isMobile ? 'body2' : 'body1'} sx={{ mb: 1 }}>
                 Upload sources
               </Typography>
-              <Typography variant="body2" sx={{ mb: 1 }}>
+              <Typography variant={isMobile ? 'caption' : 'body2'} sx={{ mb: 1 }}>
                 Drag & drop or choose file to upload
               </Typography>
               <Typography variant="caption" color="text.secondary">
@@ -132,26 +143,26 @@ const UploadSourceModal = ({ open, onClose }) => {
               </Typography>
             </Box>
 
-            <Grid container spacing={3} sx={{ mb: 2 }}>
-              <Grid item xs={4}>
+            <Grid container spacing={isMobile ? 2 : 3} sx={{ mb: 2 }}>
+              <Grid item xs={12} sm={4}>
                 <Box
                   sx={{
-                    p: 2,
+                    p: isMobile ? 1.5 : 2,
                     border: '1px solid #e0e0e0',
                     borderRadius: 2,
                     textAlign: 'center',
-                    backgroundColor:"#ececec"
+                    backgroundColor: '#ececec',
                   }}
                 >
-                  <Typography variant="body2" sx={{ mb: 2 }}>
+                  <Typography variant="body2" sx={{ mb: 2, fontSize: isMobile ? '12px' : '14px' }}>
                     <Box
                       component="span"
                       sx={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: 24,
-                        height: 24,
+                        width: isMobile ? 20 : 24,
+                        height: isMobile ? 20 : 24,
                         borderRadius: '50%',
                         backgroundColor: '#f9f9f9',
                         mr: 1,
@@ -159,14 +170,19 @@ const UploadSourceModal = ({ open, onClose }) => {
                     >
                       <Box
                         component="span"
-                        sx={{ fontSize: '14px', color: '#6F6F6F' }}
+                        sx={{ fontSize: isMobile ? '12px' : '14px', color: '#6F6F6F' }}
                       >
                         Δ
                       </Box>
                     </Box>
                     Google Drive
                   </Typography>
-                  <Stack direction="row" spacing={1} justifyContent="center">
+                  <Stack 
+                    direction={isMobile ? 'column' : 'row'} 
+                    spacing={1} 
+                    justifyContent="center"
+                    alignItems="center"
+                  >
                     <input
                       type="file"
                       ref={fileInputRefDocs}
@@ -176,12 +192,15 @@ const UploadSourceModal = ({ open, onClose }) => {
                     />
                     <Button
                       variant="contained"
-                      size="small"
+                      size={isMobile ? 'small' : 'small'}
                       sx={{
                         textTransform: 'none',
                         backgroundColor: '#f9f9f9',
-                        color:'#aaa9aa',
+                        color: '#aaa9aa',
                         '&:hover': { backgroundColor: '#f9f9f9' },
+                        fontSize: isMobile ? '11px' : '13px',
+                        minWidth: isMobile ? '100px' : 'auto',
+                        width: isMobile ? '100%' : 'auto',
                       }}
                       onClick={handleGoogleDocsClick}
                     >
@@ -196,12 +215,15 @@ const UploadSourceModal = ({ open, onClose }) => {
                     />
                     <Button
                       variant="contained"
-                      size="small"
+                      size={isMobile ? 'small' : 'small'}
                       sx={{
                         textTransform: 'none',
                         backgroundColor: '#f9f9f9',
-                        color:'#aaa9aa',
+                        color: '#aaa9aa',
                         '&:hover': { backgroundColor: '#f9f9f9' },
+                        fontSize: isMobile ? '11px' : '13px',
+                        minWidth: isMobile ? '100px' : 'auto',
+                        width: isMobile ? '100%' : 'auto',
                       }}
                       onClick={handleGoogleSlidesClick}
                     >
@@ -211,25 +233,25 @@ const UploadSourceModal = ({ open, onClose }) => {
                 </Box>
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Box
                   sx={{
-                    p: 2,
+                    p: isMobile ? 1.5 : 2,
                     border: '1px solid #e0e0e0',
                     borderRadius: 2,
                     textAlign: 'center',
-                    backgroundColor:"#ececec"
+                    backgroundColor: '#ececec',
                   }}
                 >
-                  <Typography variant="body2" sx={{ mb: 2 }}>
+                  <Typography variant="body2" sx={{ mb: 2, fontSize: isMobile ? '12px' : '14px' }}>
                     <Box
                       component="span"
                       sx={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: 24,
-                        height: 24,
+                        width: isMobile ? 20 : 24,
+                        height: isMobile ? 20 : 24,
                         borderRadius: '50%',
                         backgroundColor: '#f9f9f9',
                         mr: 1,
@@ -237,22 +259,30 @@ const UploadSourceModal = ({ open, onClose }) => {
                     >
                       <Box
                         component="span"
-                        sx={{ fontSize: '14px', color:'#aaa9aa' }}
+                        sx={{ fontSize: isMobile ? '12px' : '14px', color: '#aaa9aa' }}
                       >
                         ↪
                       </Box>
                     </Box>
                     Link
                   </Typography>
-                  <Stack direction="row" spacing={1} justifyContent="center">
+                  <Stack 
+                    direction={isMobile ? 'column' : 'row'} 
+                    spacing={1} 
+                    justifyContent="center"
+                    alignItems="center"
+                  >
                     <Button
                       variant="contained"
-                      size="small"
+                      size={isMobile ? 'small' : 'small'}
                       sx={{
                         textTransform: 'none',
                         backgroundColor: '#f9f9f9',
-                        color:'#aaa9aa',
+                        color: '#aaa9aa',
                         '&:hover': { backgroundColor: '#f9f9f9' },
+                        fontSize: isMobile ? '11px' : '13px',
+                        minWidth: isMobile ? '100px' : 'auto',
+                        width: isMobile ? '100%' : 'auto',
                       }}
                       onClick={handleWebsiteClick}
                     >
@@ -260,12 +290,15 @@ const UploadSourceModal = ({ open, onClose }) => {
                     </Button>
                     <Button
                       variant="contained"
-                      size="small"
+                      size={isMobile ? 'small' : 'small'}
                       sx={{
                         textTransform: 'none',
                         backgroundColor: '#f9f9f9',
-                        color:'#aaa9aa',
+                        color: '#aaa9aa',
                         '&:hover': { backgroundColor: '#f9f9f9' },
+                        fontSize: isMobile ? '11px' : '13px',
+                        minWidth: isMobile ? '100px' : 'auto',
+                        width: isMobile ? '100%' : 'auto',
                       }}
                       onClick={handleYouTubeClick}
                     >
@@ -275,26 +308,25 @@ const UploadSourceModal = ({ open, onClose }) => {
                 </Box>
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Box
                   sx={{
-                    p: 2,
+                    p: isMobile ? 1.5 : 2,
                     border: '1px solid #e0e0e0',
                     borderRadius: 2,
                     textAlign: 'center',
-                    minWidth: 223,
-                    backgroundColor:"#ececec"
+                    backgroundColor: '#ececec',
                   }}
                 >
-                  <Typography variant="body2" sx={{ mb: 2 }}>
+                  <Typography variant="body2" sx={{ mb: 2, fontSize: isMobile ? '12px' : '14px' }}>
                     <Box
                       component="span"
                       sx={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: 24,
-                        height: 24,
+                        width: isMobile ? 20 : 24,
+                        height: isMobile ? 20 : 24,
                         borderRadius: '50%',
                         backgroundColor: '#f9f9f9',
                         mr: 1,
@@ -302,7 +334,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                     >
                       <Box
                         component="span"
-                        sx={{ fontSize: '14px', color:'#aaa9aa' }}
+                        sx={{ fontSize: isMobile ? '12px' : '14px', color: '#aaa9aa' }}
                       >
                         ▤
                       </Box>
@@ -311,12 +343,15 @@ const UploadSourceModal = ({ open, onClose }) => {
                   </Typography>
                   <Button
                     variant="contained"
-                    size="small"
+                    size={isMobile ? 'small' : 'small'}
                     sx={{
                       textTransform: 'none',
                       backgroundColor: '#f9f9f9',
-                      color:'#aaa9aa',
+                      color: '#aaa9aa',
                       '&:hover': { backgroundColor: '#bbdefb' },
+                      fontSize: isMobile ? '11px' : '13px',
+                      minWidth: isMobile ? '100px' : 'auto',
+                      width: isMobile ? '100%' : 'auto',
                     }}
                     onClick={handleCopiedTextClick}
                   >
@@ -329,18 +364,28 @@ const UploadSourceModal = ({ open, onClose }) => {
         </Card>
       ) : (
         <Card
-          sx={{ width: 600, p: 4, borderRadius: 2, backgroundColor: 'white', position: 'relative' }}
+          sx={{ 
+            width: isMobile ? '95%' : isTablet ? '80%' : 600, 
+            maxWidth: '100vw',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            p: isMobile ? 2 : 4, 
+            borderRadius: 2, 
+            backgroundColor: 'white', 
+            position: 'relative',
+            mx: isMobile ? 1 : 0,
+          }}
         >
           <IconButton
             onClick={handleSubModalClose}
-            sx={{ position: 'absolute', top: 8, right: 8 }}
+            sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}
           >
             <Close sx={{ fontSize: 20, color: '#757575' }} />
           </IconButton>
-          <CardContent>
+          <CardContent sx={{ p: 0 }}>
             {subModal === 'website' && (
               <>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, pr: 4 }}>
                   <Box
                     sx={{
                       width: 24,
@@ -359,7 +404,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       N
                     </Typography>
                   </Box>
-                  <Typography variant="h6" fontWeight={600} sx={{ color: '#040404' }}>
+                  <Typography variant={isMobile ? 'body1' : 'h6'} fontWeight={600} sx={{ color: '#040404' }}>
                     NotebookLM
                   </Typography>
                 </Box>
@@ -371,18 +416,31 @@ const UploadSourceModal = ({ open, onClose }) => {
                   variant="outlined"
                   placeholder="Paste URLs*"
                   sx={{ mb: 2 }}
+                  size={isMobile ? 'small' : 'medium'}
                 />
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" sx={{ mb: 2 }}>
                   Notes:
-                  <ul>
-                    <li>To add multiple URLs, separate with a space or new line.</li>
-                    <li>Only the visible text on the website will be imported.</li>
-                    <li>Paid articles are not supported.</li>
-                  </ul>
                 </Typography>
+                <Box sx={{ mb: 2, pl: 2 }}>
+                  <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" component="div">
+                    • To add multiple URLs, separate with a space or new line.
+                  </Typography>
+                  <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" component="div">
+                    • Only the visible text on the website will be imported.
+                  </Typography>
+                  <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" component="div">
+                    • Paid articles are not supported.
+                  </Typography>
+                </Box>
                 <Button
                   variant="contained"
-                  sx={{ textTransform: 'none', backgroundColor: '#e0e0e0', color: '#757575' }}
+                  fullWidth={isMobile}
+                  sx={{ 
+                    textTransform: 'none', 
+                    backgroundColor: '#e0e0e0', 
+                    color: '#757575',
+                    fontSize: isMobile ? '14px' : '16px',
+                  }}
                   onClick={() => handleInsert('Website URLs', document.querySelector('input').value)}
                 >
                   Insert
@@ -391,7 +449,7 @@ const UploadSourceModal = ({ open, onClose }) => {
             )}
             {subModal === 'youtube' && (
               <>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, pr: 4 }}>
                   <Box
                     sx={{
                       width: 24,
@@ -410,7 +468,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       N
                     </Typography>
                   </Box>
-                  <Typography variant="h6" fontWeight={600} sx={{ color: '#040404' }}>
+                  <Typography variant={isMobile ? 'body1' : 'h6'} fontWeight={600} sx={{ color: '#040404' }}>
                     NotebookLM
                   </Typography>
                 </Box>
@@ -422,19 +480,34 @@ const UploadSourceModal = ({ open, onClose }) => {
                   variant="outlined"
                   placeholder="Paste YouTube URL*"
                   sx={{ mb: 2 }}
+                  size={isMobile ? 'small' : 'medium'}
                 />
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" sx={{ mb: 2 }}>
                   Notes:
-                  <ul>
-                    <li>Only the text transcript will be imported at this moment.</li>
-                    <li>Only public YouTube videos are supported.</li>
-                    <li>Recently uploaded videos may not be available to import.</li>
-                    <li>If upload fails, learn more for common reasons.</li>
-                  </ul>
                 </Typography>
+                <Box sx={{ mb: 2, pl: 2 }}>
+                  <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" component="div">
+                    • Only the text transcript will be imported at this moment.
+                  </Typography>
+                  <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" component="div">
+                    • Only public YouTube videos are supported.
+                  </Typography>
+                  <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" component="div">
+                    • Recently uploaded videos may not be available to import.
+                  </Typography>
+                  <Typography variant={isMobile ? 'caption' : 'body2'} color="text.secondary" component="div">
+                    • If upload fails, learn more for common reasons.
+                  </Typography>
+                </Box>
                 <Button
                   variant="contained"
-                  sx={{ textTransform: 'none', backgroundColor: '#e0e0e0', color: '#757575' }}
+                  fullWidth={isMobile}
+                  sx={{ 
+                    textTransform: 'none', 
+                    backgroundColor: '#e0e0e0', 
+                    color: '#757575',
+                    fontSize: isMobile ? '14px' : '16px',
+                  }}
                   onClick={() => handleInsert('YouTube URL', document.querySelector('input').value)}
                 >
                   Insert
@@ -443,7 +516,7 @@ const UploadSourceModal = ({ open, onClose }) => {
             )}
             {subModal === 'copiedText' && (
               <>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, pr: 4 }}>
                   <Box
                     sx={{
                       width: 24,
@@ -462,7 +535,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       N
                     </Typography>
                   </Box>
-                  <Typography variant="h6" fontWeight={600} sx={{ color: '#040404' }}>
+                  <Typography variant={isMobile ? 'body1' : 'h6'} fontWeight={600} sx={{ color: '#040404' }}>
                     NotebookLM
                   </Typography>
                 </Box>
@@ -474,12 +547,19 @@ const UploadSourceModal = ({ open, onClose }) => {
                   variant="outlined"
                   placeholder="Paste text here*"
                   multiline
-                  rows={4}
+                  rows={isMobile ? 3 : 4}
                   sx={{ mb: 2 }}
+                  size={isMobile ? 'small' : 'medium'}
                 />
                 <Button
                   variant="contained"
-                  sx={{ textTransform: 'none', backgroundColor: '#e0e0e0', color: '#757575' }}
+                  fullWidth={isMobile}
+                  sx={{ 
+                    textTransform: 'none', 
+                    backgroundColor: '#e0e0e0', 
+                    color: '#757575',
+                    fontSize: isMobile ? '14px' : '16px',
+                  }}
                   onClick={() => handleInsert('Copied Text', document.querySelector('textarea').value)}
                 >
                   Insert
