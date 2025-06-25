@@ -19,16 +19,17 @@ const StudioPanel = ({ isCollapsed, onToggle }) => {
         display: 'flex',
         flexDirection: 'column',
         transition: 'width 0.3s ease',
+        backgroundColor: '#f9f9f9'  
       }}
     >
       <Box
         sx={{
           p: 1,
-          backgroundColor: '#e3f2fd',
+          backgroundColor: '#f9f9f9',
           display: 'flex',
           alignItems: 'center',
           justifyContent: isCollapsed ? 'center' : 'space-between',
-          borderBottom: '1px solid #bbdefb',
+          borderBottom: '1px solid #d0d0d0',
         }}
       >
         {!isCollapsed && (
@@ -45,41 +46,41 @@ const StudioPanel = ({ isCollapsed, onToggle }) => {
         <Box sx={{ p: 3 }}>
           <Box sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-              <Typography variant="subtitle1" fontWeight={600}>
+              <Typography variant="subtitle1" color='#6F6F6F' fontWeight={600}>
                 Audio Overview
               </Typography>
               <IconButton size="small">
                 <Info sx={{ fontSize: 18 }} />
               </IconButton>
             </Box>
-            <Card sx={{ p: 2, backgroundColor: '#e3f2fd', border: '1px solid #bbdefb' }}>
+            <Card sx={{ p: 2, backgroundColor: '#ECECEC' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <VolumeUp sx={{ fontSize: 16, color: '#1976d2', mr: 1 }} />
-                <Typography variant="body2" color="#1976d2">
+                <VolumeUp sx={{ fontSize: 16, color: '#6F6F6F', mr: 1 }} />
+                <Typography variant="body2" color="#6F6F6F">
                   Create an Audio Overview in more languages!
                 </Typography>
               </Box>
-              <Button variant="text" size="small" sx={{ textTransform: 'none', p: 0, fontSize: '0.875rem' }}>
+              <Button variant="text" size="small" sx={{ textTransform: 'none', p: 0, fontSize: '0.875rem' , color:"#6F6F6F" }}>
                 Learn more
               </Button>
             </Card>
-            <Card sx={{ mt: 2, p: 2, backgroundColor: '#f5f5f5' }}>
+            <Card sx={{ mt: 2, p: 2, backgroundColor: '#ECECEC' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <Description sx={{ fontSize: 20, color: '#757575', mr: 2 }} />
+                <Description sx={{ fontSize: 20, color: '#6F6F6F', mr: 2 }} />
                 <Box>
-                  <Typography variant="subtitle2" fontWeight={600}>
+                  <Typography variant="subtitle2"  color = '#6F6F6F' fontWeight={600}>
                     {mockData.notebook.deepDive.title}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" color = '#6F6F6F'>
                     {mockData.notebook.deepDive.subtitle}
                   </Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
-                <Button variant="outlined" size="small" sx={{ textTransform: 'none', flex: 1 }}>
+                <Button variant="outlined" size="small" sx={{ textTransform: 'none', flex: 1, borderColor: '#d0d0d0', backgroundColor: '#ECECEC', color: '#6F6F6F' }}>
                   Customize
                 </Button>
-                <Button variant="contained" size="small" sx={{ textTransform: 'none', flex: 1 }}>
+                <Button variant="contained" size="small" sx={{ textTransform: 'none', flex: 1 , backgroundColor: '#ECECEC', color:'#6F6F6F'}}>
                   Generate
                 </Button>
               </Box>

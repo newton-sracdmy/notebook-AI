@@ -34,7 +34,7 @@ const NotebookLMInterface = () => {
           position="static"
           elevation={0}
           sx={{
-            backgroundColor: 'white',
+            backgroundColor: '#ECECEC',
             borderBottom: '1px solid #e0e0e0',
           }}
         >
@@ -45,14 +45,14 @@ const NotebookLMInterface = () => {
                   width: 32,
                   height: 32,
                   borderRadius: '50%',
-                  backgroundColor: '#1976d2',
+                  backgroundColor: '#6f6f6f',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mr: 2,
                 }}
               >
-                <Typography sx={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                <Typography sx={{ color: '#ffffff', fontSize: '14px', fontWeight: 'bold' }}>
                   N
                 </Typography>
               </Box>

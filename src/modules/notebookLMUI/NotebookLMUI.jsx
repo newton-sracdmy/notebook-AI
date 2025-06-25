@@ -74,7 +74,7 @@ const Column = ({ title, items }) => (
           backgroundColor: getDotColor(title),
         }}
       />
-      <Typography fontWeight={600} fontSize="16px" color="#2f3437">
+      <Typography fontWeight={600} fontSize="16px" color="#6F6F6F">
         {title}
       </Typography>
     </Box>
@@ -121,7 +121,7 @@ const Column = ({ title, items }) => (
         cursor: 'pointer',
         boxShadow: '-1px 2px 27px -15px rgba(0,0,0,0.75)',
         transition: 'all 0.2s',
-        '&:hover': { backgroundColor: '#f4f4f4', textDecoration: 'underline' },
+        '&:hover': { backgroundColor: '#f4f4f4', textDecoration: 'none' },
       }}
     >
       Add Page
@@ -200,7 +200,7 @@ export default function NotebookLMUI() {
           >
             <DescriptionIcon sx={{ fontSize: { xs: 20, sm: 16 }, color: '#757575' }} />
             <Typography
-              sx={{ display: { xs: 'none', sm: 'block' } }}
+              sx={{ display: { xs: 'none', sm: 'block', color: '#757575' } }}
             >
               Drafts
             </Typography>
@@ -228,7 +228,7 @@ export default function NotebookLMUI() {
             <Typography
               fontSize={{ xs: 0, sm: '13px' }}
               color="#757575"
-              sx={{ fontWeight: 600, fontSize: { xs: 0, sm: '14px' }, display: { xs: 'none', sm: 'block' } }}
+              sx={{ fontWeight: 400, fontSize: { xs: 0, sm: '14px' }, display: { xs: 'none', sm: 'block' } }}
             >
               Shared With Me
             </Typography>
@@ -255,8 +255,8 @@ export default function NotebookLMUI() {
             <Settings sx={{ fontSize: { xs: 20, sm: 16 }, color: '#616161' }} />
             <Typography
               fontSize={{ xs: 0, sm: '13px' }}
-              color="#616161"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
+             color="#757575"
+               sx={{ fontWeight: 400, fontSize: { xs: 0, sm: '14px' }, display: { xs: 'none', sm: 'block' } }}
             >
               Settings
             </Typography>
@@ -280,8 +280,8 @@ export default function NotebookLMUI() {
             <PersonAdd sx={{ fontSize: { xs: 20, sm: 16 }, color: '#616161' }} />
             <Typography
               fontSize={{ xs: 0, sm: '13px' }}
-              color="#616161"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
+              color="#757575"
+              sx={{ fontWeight: 400, fontSize: { xs: 0, sm: '14px' }, display: { xs: 'none', sm: 'block' } }}
             >
               Invite Members
             </Typography>

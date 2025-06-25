@@ -7,11 +7,12 @@ const theme = createTheme({
       main: '#1976d2',
     },
     background: {
-      default: '#fafafa',
+      default: '#f9f9f9',
       paper: '#ffffff',
     },
   },
    typography: {
+    color:'#6F6F6F',
     fontFamily: `'Roboto Mono', monospace`,
   },
 });

@@ -15,7 +15,7 @@ const UploadSourceModal = ({ open, onClose }) => {
         console.log(`Uploaded ${type} file content:`, e.target.result);
         alert(`Uploaded ${type} file: ${file.name}`);
       };
-      reader.readAsText(file); // Adjust for other file types if needed
+      reader.readAsText(file); 
     }
   };
 
@@ -53,10 +53,10 @@ const UploadSourceModal = ({ open, onClose }) => {
       {!subModal ? (
         <Card
           sx={{
-            width: 807,
+            width: 836,
             p: 4,
             borderRadius: 2,
-            backgroundColor: 'white',
+            backgroundColor: '#ffffff',
             position: 'relative',
           }}
         >
@@ -74,7 +74,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                   width: 24,
                   height: 24,
                   borderRadius: '50%',
-                  backgroundColor: '#1976d2',
+                  backgroundColor: '#6f6f6f',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -94,7 +94,7 @@ const UploadSourceModal = ({ open, onClose }) => {
               <Typography
                 variant="h6"
                 fontWeight={600}
-                sx={{ color: '#1976d2' }}
+                sx={{ color: '#040404' }}
               >
                 NotebookLM
               </Typography>
@@ -120,7 +120,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                 mb: 4,
               }}
             >
-              <CloudUpload sx={{ fontSize: 40, color: '#1976d2', mb: 2 }} />
+              <CloudUpload sx={{ fontSize: 40, color: '#6F6F6F', mb: 2 }} />
               <Typography variant="body1" sx={{ mb: 1 }}>
                 Upload sources
               </Typography>
@@ -140,6 +140,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                     border: '1px solid #e0e0e0',
                     borderRadius: 2,
                     textAlign: 'center',
+                    backgroundColor:"#ececec"
                   }}
                 >
                   <Typography variant="body2" sx={{ mb: 2 }}>
@@ -152,13 +153,13 @@ const UploadSourceModal = ({ open, onClose }) => {
                         width: 24,
                         height: 24,
                         borderRadius: '50%',
-                        backgroundColor: '#e3f2fd',
+                        backgroundColor: '#f9f9f9',
                         mr: 1,
                       }}
                     >
                       <Box
                         component="span"
-                        sx={{ fontSize: '14px', color: '#1976d2' }}
+                        sx={{ fontSize: '14px', color: '#6F6F6F' }}
                       >
                         Δ
                       </Box>
@@ -178,9 +179,9 @@ const UploadSourceModal = ({ open, onClose }) => {
                       size="small"
                       sx={{
                         textTransform: 'none',
-                        backgroundColor: '#e3f2fd',
-                        color: '#1976d2',
-                        '&:hover': { backgroundColor: '#bbdefb' },
+                        backgroundColor: '#f9f9f9',
+                        color:'#aaa9aa',
+                        '&:hover': { backgroundColor: '#f9f9f9' },
                       }}
                       onClick={handleGoogleDocsClick}
                     >
@@ -198,9 +199,9 @@ const UploadSourceModal = ({ open, onClose }) => {
                       size="small"
                       sx={{
                         textTransform: 'none',
-                        backgroundColor: '#e3f2fd',
-                        color: '#1976d2',
-                        '&:hover': { backgroundColor: '#bbdefb' },
+                        backgroundColor: '#f9f9f9',
+                        color:'#aaa9aa',
+                        '&:hover': { backgroundColor: '#f9f9f9' },
                       }}
                       onClick={handleGoogleSlidesClick}
                     >
@@ -217,6 +218,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                     border: '1px solid #e0e0e0',
                     borderRadius: 2,
                     textAlign: 'center',
+                    backgroundColor:"#ececec"
                   }}
                 >
                   <Typography variant="body2" sx={{ mb: 2 }}>
@@ -229,13 +231,13 @@ const UploadSourceModal = ({ open, onClose }) => {
                         width: 24,
                         height: 24,
                         borderRadius: '50%',
-                        backgroundColor: '#e3f2fd',
+                        backgroundColor: '#f9f9f9',
                         mr: 1,
                       }}
                     >
                       <Box
                         component="span"
-                        sx={{ fontSize: '14px', color: '#1976d2' }}
+                        sx={{ fontSize: '14px', color:'#aaa9aa' }}
                       >
                         ↪
                       </Box>
@@ -248,9 +250,9 @@ const UploadSourceModal = ({ open, onClose }) => {
                       size="small"
                       sx={{
                         textTransform: 'none',
-                        backgroundColor: '#e3f2fd',
-                        color: '#1976d2',
-                        '&:hover': { backgroundColor: '#bbdefb' },
+                        backgroundColor: '#f9f9f9',
+                        color:'#aaa9aa',
+                        '&:hover': { backgroundColor: '#f9f9f9' },
                       }}
                       onClick={handleWebsiteClick}
                     >
@@ -261,9 +263,9 @@ const UploadSourceModal = ({ open, onClose }) => {
                       size="small"
                       sx={{
                         textTransform: 'none',
-                        backgroundColor: '#e3f2fd',
-                        color: '#1976d2',
-                        '&:hover': { backgroundColor: '#bbdefb' },
+                        backgroundColor: '#f9f9f9',
+                        color:'#aaa9aa',
+                        '&:hover': { backgroundColor: '#f9f9f9' },
                       }}
                       onClick={handleYouTubeClick}
                     >
@@ -281,6 +283,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                     borderRadius: 2,
                     textAlign: 'center',
                     minWidth: 223,
+                    backgroundColor:"#ececec"
                   }}
                 >
                   <Typography variant="body2" sx={{ mb: 2 }}>
@@ -293,13 +296,13 @@ const UploadSourceModal = ({ open, onClose }) => {
                         width: 24,
                         height: 24,
                         borderRadius: '50%',
-                        backgroundColor: '#e3f2fd',
+                        backgroundColor: '#f9f9f9',
                         mr: 1,
                       }}
                     >
                       <Box
                         component="span"
-                        sx={{ fontSize: '14px', color: '#1976d2' }}
+                        sx={{ fontSize: '14px', color:'#aaa9aa' }}
                       >
                         ▤
                       </Box>
@@ -311,8 +314,8 @@ const UploadSourceModal = ({ open, onClose }) => {
                     size="small"
                     sx={{
                       textTransform: 'none',
-                      backgroundColor: '#e3f2fd',
-                      color: '#1976d2',
+                      backgroundColor: '#f9f9f9',
+                      color:'#aaa9aa',
                       '&:hover': { backgroundColor: '#bbdefb' },
                     }}
                     onClick={handleCopiedTextClick}
@@ -343,7 +346,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       width: 24,
                       height: 24,
                       borderRadius: '50%',
-                      backgroundColor: '#1976d2',
+                      backgroundColor: '#6f6f6f',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -356,7 +359,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       N
                     </Typography>
                   </Box>
-                  <Typography variant="h6" fontWeight={600} sx={{ color: '#1976d2' }}>
+                  <Typography variant="h6" fontWeight={600} sx={{ color: '#040404' }}>
                     NotebookLM
                   </Typography>
                 </Box>
@@ -394,7 +397,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       width: 24,
                       height: 24,
                       borderRadius: '50%',
-                      backgroundColor: '#1976d2',
+                      backgroundColor: '#6f6f6f',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -407,7 +410,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       N
                     </Typography>
                   </Box>
-                  <Typography variant="h6" fontWeight={600} sx={{ color: '#1976d2' }}>
+                  <Typography variant="h6" fontWeight={600} sx={{ color: '#040404' }}>
                     NotebookLM
                   </Typography>
                 </Box>
@@ -446,7 +449,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       width: 24,
                       height: 24,
                       borderRadius: '50%',
-                      backgroundColor: '#1976d2',
+                      backgroundColor: '#6f6f6f',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -459,7 +462,7 @@ const UploadSourceModal = ({ open, onClose }) => {
                       N
                     </Typography>
                   </Box>
-                  <Typography variant="h6" fontWeight={600} sx={{ color: '#1976d2' }}>
+                  <Typography variant="h6" fontWeight={600} sx={{ color: '#040404' }}>
                     NotebookLM
                   </Typography>
                 </Box>

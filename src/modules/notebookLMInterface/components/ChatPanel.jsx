@@ -20,10 +20,10 @@ const ChatPanel = ({
         flexGrow: 1,
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#fafafa',
+        backgroundColor: '#fff',
       }}
     >
-      <Box sx={{ p: 0.75, borderBottom: '1px solid #e0e0e0', backgroundColor: 'white' }}>
+      <Box sx={{ p: 0.75, borderBottom: '1px solid #e0e0e0', backgroundColor: '#f9f9f9' }}>
         <Typography variant="h6" fontWeight={600} sx={{ ml: 2 }}>
           Chat
         </Typography>
@@ -39,8 +39,8 @@ const ChatPanel = ({
           p: 4,
         }}
       >
-        <CloudUpload sx={{ fontSize: 60, color: '#1976d2', mb: 3 }} />
-        <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+        <CloudUpload sx={{ fontSize: 60, color:'#6F6F6F', mb: 3 }} />
+        <Typography variant="h5" color='#6F6F6F'  fontWeight={600} sx={{ mb: 2 }}>
           Add a source to get started
         </Typography>
         <Button
@@ -51,6 +51,8 @@ const ChatPanel = ({
             px: 3,
             py: 1.5,
             borderRadius: 2,
+            backgroundColor: '#f9f9f9',
+            color: "#aaa9aa",
           }}
         >
           Upload a source
