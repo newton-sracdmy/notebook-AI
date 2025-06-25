@@ -1,19 +1,21 @@
-// src/styles/theme.js
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    background: {
-      default: '#f9f9f9',
-      paper: '#ffffff',
+  typography: {
+    allVariants: {
+      color: '#6F6F6F',
+      fontFamily: `'Roboto Mono', monospace`,
     },
   },
-   typography: {
-    color:'#6F6F6F',
-    fontFamily: `'Roboto Mono', monospace`,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      tablet: 1030,
+      lg: 1280,
+      xl: 1920,
+    },
   },
 });
 

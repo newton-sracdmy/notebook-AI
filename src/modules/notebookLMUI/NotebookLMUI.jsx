@@ -297,7 +297,7 @@ export default function NotebookLMUI() {
               textTransform: 'none',
               fontSize: { xs: 0, sm: '13px' },
               borderColor: '#d0d0d0',
-              color: '#444',
+              color:'#aaa9aa',
               backgroundColor: '#f9f9f9',
               '&:hover': {
                 backgroundColor: '#f4f4f4'
@@ -315,7 +315,7 @@ export default function NotebookLMUI() {
               textTransform: 'none',
               fontSize: { xs: 0, sm: '13px' },
               borderColor: '#d0d0d0',
-              color: '#444',
+              color:'#aaa9aa',
               backgroundColor: '#f9f9f9',
               '&:hover': {
                 backgroundColor: '#f4f4f4'
@@ -325,7 +325,7 @@ export default function NotebookLMUI() {
           >
             New Project
           </Button>
-          {/* Add icon for New Draft/New Project on xs */}
+         
           <Box
             sx={{
               display: { xs: 'flex', sm: 'none' },
