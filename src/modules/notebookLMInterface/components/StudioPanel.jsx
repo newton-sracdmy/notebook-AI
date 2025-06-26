@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box, Button, IconButton, Typography, Divider, CircularProgress
 } from '@mui/material';
