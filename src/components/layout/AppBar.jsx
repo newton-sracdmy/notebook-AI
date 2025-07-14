@@ -13,9 +13,26 @@ import {
   MenuItem,
   TextField,
   FormControl,
-  Alert
+  Alert,
+  Menu,
+  Divider,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
-import { Share, Settings, Close, Lock, Public, ContentCopy } from '@mui/icons-material';
+import { 
+  Share, 
+  Settings, 
+  Close, 
+  Lock, 
+  Public, 
+  ContentCopy,
+  HelpOutline,
+  Feedback,
+  Language,
+  DeviceHub,
+  Upgrade,
+  Apps
+} from '@mui/icons-material';
 
 // Mock data
 const mockData = {
@@ -205,8 +222,93 @@ const ShareDialog = ({ open, onClose }) => {
   );
 };
 
+const SettingsMenu = ({ anchorEl, open, onClose }) => {
+  const handleMenuItemClick = (action) => {
+    console.log('Settings action:', action);
+    onClose();
+  };
+
+  return (
+    <Menu
+      anchorEl={anchorEl}
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        sx: {
+          width: 220,
+          borderRadius: 2,
+          mt: 1,
+          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+          border: '1px solid #e0e0e0'
+        }
+      }}
+      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+    >
+      <MenuItem onClick={() => handleMenuItemClick('help')} sx={{ py: 1.5 }}>
+        <ListItemIcon sx={{ minWidth: 36 }}>
+          <HelpOutline sx={{ fontSize: 20, color: '#666' }} />
+        </ListItemIcon>
+        <ListItemText 
+          primary="NotebookLM Help" 
+          primaryTypographyProps={{ fontSize: '0.9rem', color: '#333' }}
+        />
+      </MenuItem>
+      
+      <MenuItem onClick={() => handleMenuItemClick('feedback')} sx={{ py: 1.5 }}>
+        <ListItemIcon sx={{ minWidth: 36 }}>
+          <Feedback sx={{ fontSize: 20, color: '#666' }} />
+        </ListItemIcon>
+        <ListItemText 
+          primary="Send feedback" 
+          primaryTypographyProps={{ fontSize: '0.9rem', color: '#333' }}
+        />
+      </MenuItem>
+      
+      <Divider sx={{ my: 0.5 }} />
+      
+      <MenuItem onClick={() => handleMenuItemClick('language')} sx={{ py: 1.5 }}>
+        <ListItemIcon sx={{ minWidth: 36 }}>
+          <Language sx={{ fontSize: 20, color: '#666' }} />
+        </ListItemIcon>
+        <ListItemText 
+          primary="Output Language" 
+          primaryTypographyProps={{ fontSize: '0.9rem', color: '#333' }}
+        />
+      </MenuItem>
+      
+      <MenuItem onClick={() => handleMenuItemClick('device')} sx={{ py: 1.5 }}>
+        <ListItemIcon sx={{ minWidth: 36 }}>
+          <DeviceHub sx={{ fontSize: 20, color: '#666' }} />
+        </ListItemIcon>
+        <ListItemText 
+          primary="Device" 
+          primaryTypographyProps={{ fontSize: '0.9rem', color: '#333' }}
+        />
+        <Typography sx={{ fontSize: '0.8rem', color: '#999', ml: 'auto' }}>
+          ▶
+        </Typography>
+      </MenuItem>
+      
+      <Divider sx={{ my: 0.5 }} />
+      
+      <MenuItem onClick={() => handleMenuItemClick('upgrade')} sx={{ py: 1.5 }}>
+        <ListItemIcon sx={{ minWidth: 36 }}>
+          <Upgrade sx={{ fontSize: 20, color: '#666' }} />
+        </ListItemIcon>
+        <ListItemText 
+          primary="Upgrade" 
+          primaryTypographyProps={{ fontSize: '0.9rem', color: '#333' }}
+        />
+      </MenuItem>
+    </Menu>
+  );
+};
+
 const AppBar = ({ isMobile }) => {
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
+  const settingsOpen = Boolean(settingsAnchorEl);
 
   const handleShareClick = () => {
     setShareDialogOpen(true);
@@ -214,6 +316,14 @@ const AppBar = ({ isMobile }) => {
 
   const handleShareDialogClose = () => {
     setShareDialogOpen(false);
+  };
+
+  const handleSettingsClick = (event) => {
+    setSettingsAnchorEl(event.currentTarget);
+  };
+
+  const handleSettingsClose = () => {
+    setSettingsAnchorEl(null);
   };
 
   return (
@@ -269,7 +379,10 @@ const AppBar = ({ isMobile }) => {
               >
                 Share
               </Button>
-              <IconButton sx={{ color: '#757575' }}>
+              <IconButton 
+                sx={{ color: '#757575' }}
+                onClick={handleSettingsClick}
+              >
                 <Settings sx={{ fontSize: 20 }} />
               </IconButton>
               <Avatar sx={{ width: 32, height: 32, ml: 1 }}>
@@ -282,7 +395,10 @@ const AppBar = ({ isMobile }) => {
               <IconButton sx={{ color: '#757575' }} onClick={handleShareClick}>
                 <Share sx={{ fontSize: 20 }} />
               </IconButton>
-              <IconButton sx={{ color: '#757575' }}>
+              <IconButton 
+                sx={{ color: '#757575' }}
+                onClick={handleSettingsClick}
+              >
                 <Settings sx={{ fontSize: 20 }} />
               </IconButton>
               <Avatar sx={{ width: 28, height: 28 }}>
@@ -296,6 +412,12 @@ const AppBar = ({ isMobile }) => {
       <ShareDialog 
         open={shareDialogOpen} 
         onClose={handleShareDialogClose} 
+      />
+
+      <SettingsMenu
+        anchorEl={settingsAnchorEl}
+        open={settingsOpen}
+        onClose={handleSettingsClose}
       />
     </>
   );
