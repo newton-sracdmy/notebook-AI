@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NotebookLMUI from './modules/notebookLMUI/NotebookLMUI';
 import NotebookLMInterface from './modules/notebookLMInterface/NotebookLMInterface';
-import AuthUI from './modules/login/SignUpLoginPage';
+import AuthUI from './modules/login/AuthUI';
 import theme from './styles/theme';
 import { ThemeProvider } from '@emotion/react';
 import PricingNotebookLm from './modules/Pricing/PricingNotebookLm';
