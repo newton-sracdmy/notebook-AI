@@ -46,14 +46,14 @@ export const deleteNotebook = createAsyncThunk(
 
     const {
       data: { data },
-    } = await hyperAudion.delete(`/notebook?${id}`, config);
+    } = await hyperAudion.delete(`/notebook/${id}`, config);
     return data;
   }
 );
 
-  export const updateNotebook = createAsyncThunk(
-  'notebook/deleteNotebook',
-  async (id, notebookData, { getState }) => {
+ export const updateNotebook = createAsyncThunk(
+  'notebook/updateNotebook',
+  async ({ id, notebookData }, { getState }) => {
     const config = {
       headers: {
         Authorization: `Bearer ${getState().authReducer.token}`,
@@ -62,7 +62,7 @@ export const deleteNotebook = createAsyncThunk(
 
     const {
       data: { data },
-    } = await hyperAudion.put(`/notebook?${id}`, notebookData, config);
+    } = await hyperAudion.put(`/notebook/${id}`, notebookData, config);
     return data;
   }
 );

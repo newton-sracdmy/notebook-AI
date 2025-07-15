@@ -8,18 +8,10 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import PeopleIcon from '@mui/icons-material/People';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createNotebook, getNotebook } from './action';
+import { createNotebook, deleteNotebook, getNotebook, updateNotebook } from './action';
+import Column from './Column';
+import EditNotebookDialog from './EditNotebookDialog';
 
-
-const getDotColor = (title) => {
-  switch (title) {
-    case 'Ideas': return '#42a5f5';
-    case 'Features / Work in Progress': return '#ffb74d';
-    case 'Done': return '#66bb6a';
-    case 'Goals': return '#212121';
-    default: return '#bdbdbd';
-  }
-};
 
 const WindowControls = () => (
   <Box sx={{ display: 'flex', gap: 1.2, px: 2, pt: 1.5 }}>
@@ -29,111 +21,11 @@ const WindowControls = () => (
   </Box>
 );
 
-const Column = ({ title, sourceCount, createdAt }) => (
-  <Paper
-    elevation={0}
-    sx={{
-      background: '#fff',
-      border: '1px solid rgb(255, 255, 255)',
-      borderRadius: '20px',
-      p: 2,
-      width: { xs: '100%', md: 225 },
-      display: 'flex',
-      flexDirection: 'column',
-      boxShadow: '-1px 2px 44px -15px rgba(0, 0, 0, 0.3)',
-      alignSelf: 'flex-start',
-    }}
-  >
-    <Box display="flex" alignItems="center" gap={1} mb={1}>
-      <Box
-        sx={{
-          width: 8,
-          height: 8,
-          borderRadius: '50%',
-          backgroundColor: getDotColor(title),
-        }}
-      />
-      <Typography fontWeight={600} fontSize="16px" color="#6F6F6F">
-        {title}
-      </Typography>
-    </Box>
-
-    <Paper
-      elevation={0}
-      sx={{
-        border: '1px solid #e0e0e0',
-        borderRadius: '8px',
-        py: 1.2,
-        px: 1.5,
-        fontSize: '13px',
-        lineHeight: 1.4,
-        color: '#2f3437',
-        mb: 1,
-        backgroundColor: '#fff',
-        boxShadow: '-1px 2px 44px -15px rgba(0, 0, 0, 0.3)',
-          transition: 'box-shadow 0.2s ease-in-out',
-          '&:hover': {
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-            borderColor: '#bdbdbd'
-          }
-      }}
-    >
-      <Typography fontWeight={600} fontSize="14px" color="#2f3437">
-        Source Count: {sourceCount}
-      </Typography>
-    </Paper>
-
-    <Paper
-      elevation={0}
-      sx={{
-        border: '1px solid #e0e0e0',
-        borderRadius: '8px',
-        py: 1.2,
-        px: 1.5,
-        fontSize: '13px',
-        lineHeight: 1.4,
-        color: '#2f3437',
-        mb: 1,
-        backgroundColor: '#fff',
-        boxShadow: '-1px 2px 44px -15px rgba(0, 0, 0, 0.3)',
-          transition: 'box-shadow 0.2s ease-in-out',
-          '&:hover': {
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-            borderColor: '#bdbdbd'
-          }
-      }}
-    >
-      <Typography fontSize="12px" color="#757575">
-        Created: {new Date(createdAt).toLocaleDateString()}
-      </Typography>
-    </Paper>
-
-    <Paper
-      elevation={0}
-      sx={{
-        mt: 1,
-        py: 1,
-        textAlign: 'center',
-        border: '1px solid #e0e0e0',
-        borderRadius: '6px',
-        backgroundColor: '#f9f9f9',
-        fontSize: '13px',
-        color: '#9e9e9e',
-        cursor: 'pointer',
-        boxShadow: '-1px 2px 27px -15px rgba(0,0,0,0.75)',
-        transition: 'all 0.2s',
-        '&:hover': { backgroundColor: '#f4f4f4', textDecoration: 'none' },
-      }}
-    >
-      Add Page
-    </Paper>
-  </Paper>
-);
-
-
 export default function NotebookLMUI() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [notebooks, setNotebooks] = useState([]);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedNotebook, setSelectedNotebook] = useState(null);
   const dispatch = useDispatch();
 
   const handleOpenDrawer = () => setOpenDrawer(true);
@@ -144,13 +36,14 @@ export default function NotebookLMUI() {
       title:'Untitled notebook' ,
       sourceCount:5
     }))
+    const response = await dispatch(getNotebook()).unwrap(); 
+     setNotebooks(response); 
   }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await dispatch(getNotebook()).unwrap(); 
-         console.log("====response========", response)
         setNotebooks(response); 
       } catch (error) {
         console.error('Failed to fetch notebooks:', error);
@@ -160,9 +53,38 @@ export default function NotebookLMUI() {
     fetchData();
   }, [dispatch]);
 
+  const handleDeleteNotebook = async (id) => {
+  try {
+    await dispatch(deleteNotebook(id)).unwrap();
+    setNotebooks((prev) => prev.filter((notebook) => notebook._id !== id));
+  } catch (error) {
+    console.error('Failed to delete notebook:', error);
+  }
+};
+
+const handleUpdateNotebook = async (id, updatedData) => {
+  console.log('Updating notebook:', id, updatedData); 
+  try {
+    const updatedNotebook = await dispatch(updateNotebook({ id, notebookData: updatedData })).unwrap();
+    setNotebooks((prev) =>
+      prev.map((notebook) =>
+        notebook._id === id ? { ...notebook, ...updatedNotebook } : notebook
+      )
+    );
+  } catch (error) {
+    console.error('Failed to update notebook:', error);
+  }
+};
+
+
+const handleEditOpen = (notebook) => {
+  setSelectedNotebook(notebook);
+  setEditDialogOpen(true);
+};
+const handleEditClose = () => setEditDialogOpen(false);
+
   return (
     <Box sx={{ display: 'flex', height: '100vh', pt: 4 }}>
-      {/* Sidebar */}
       <Box
         sx={{
           width: { xs: 60, sm: 200 },
@@ -176,9 +98,7 @@ export default function NotebookLMUI() {
           transition: 'width 0.3s ease',
         }}
       >
-        {/* Top section */}
         <Box>
-          {/* Projects Header */}
           <Box
             sx={{
               display: 'flex',
@@ -204,7 +124,6 @@ export default function NotebookLMUI() {
             </Typography>
           </Box>
 
-          {/* Drafts - Selected */}
           <Box
             sx={{
               display: 'flex',
@@ -231,7 +150,6 @@ export default function NotebookLMUI() {
             </Typography>
           </Box>
 
-          {/* Shared With Me - Nested under Projects */}
           <Box
             display="flex"
             alignItems="center"
@@ -260,9 +178,7 @@ export default function NotebookLMUI() {
           </Box>
         </Box>
 
-        {/* Bottom Section */}
         <Box mt={2}>
-          {/* Settings */}
           <Box
             display="flex"
             alignItems="center"
@@ -287,7 +203,6 @@ export default function NotebookLMUI() {
             </Typography>
           </Box>
 
-          {/* Invite Members */}
           <Box
             display="flex"
             alignItems="center"
@@ -312,7 +227,6 @@ export default function NotebookLMUI() {
             </Typography>
           </Box>
 
-          {/* Buttons */}
           <Button
             variant="outlined"
             fullWidth
@@ -364,9 +278,7 @@ export default function NotebookLMUI() {
         </Box>
       </Box>
 
-      {/* Main Content */}
       <Box sx={{ flex: 1, backgroundColor: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
-        {/* Top Navbar Strip with Window Controls */}
         <Box
           sx={{
             position: 'absolute',
@@ -385,7 +297,6 @@ export default function NotebookLMUI() {
         >
           <WindowControls />
         </Box>
-        {/* Header */}
         <Box sx={{ px: { xs: 2, md: 4 }, py: { xs: 2, md: 3.5 }, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: { xs: 'column', md: 'row' } }}>
           <Box display="flex" alignItems="center" gap={1} mb={{ xs: 2, md: 0 }}>
             <Typography fontWeight={800} fontSize={{ xs: 20, md: 28 }} color="#2f3437">
@@ -419,7 +330,6 @@ export default function NotebookLMUI() {
           </Box>
         </Box>
 
-        {/* Columns */}
        <Box
         sx={{
           display: 'flex',
@@ -431,18 +341,26 @@ export default function NotebookLMUI() {
           flexWrap: 'wrap'
         }}
       >
-        { notebooks.map((notebook) => (
+        {notebooks.map((notebook) => (
           <Column
             key={notebook._id}
+            id={notebook._id}
             title={notebook.title}
             sourceCount={notebook.sourceCount}
             createdAt={notebook.createdAt}
+            onDelete={handleDeleteNotebook}
+            onEdit={handleEditOpen}
           />
         ))}
       </Box>
+        <EditNotebookDialog
+          open={editDialogOpen}
+          handleClose={handleEditClose}
+          notebook={selectedNotebook}
+          onSave={handleUpdateNotebook}
+        />
       </Box>
 
-      {/* Drawer for Hamburger Menu on xs */}
       <Drawer
         anchor="right"
         open={openDrawer}
