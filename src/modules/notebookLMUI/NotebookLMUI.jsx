@@ -6,33 +6,10 @@ import BorderAllIcon from '@mui/icons-material/BorderAll';
 import GridViewIcon from '@mui/icons-material/GridView';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PeopleIcon from '@mui/icons-material/People';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createNotebook } from './action';
+import { createNotebook, getNotebook } from './action';
 
-const boardData = {
-  Ideas: [
-    { text: 'Design Moodboard', bold: true },
-    { text: 'Product Ideas' },
-    { text: 'Feature Ideas' },
-    { text: 'Research Findings' }
-  ],
-  'Features / Work in Progress': [
-    { text: 'API Design', bold: true },
-    { text: 'Hi-Fi Prototypes' },
-    { text: 'Edge Case Designs' }
-  ],
-  Done: [
-    { text: 'Information Architecture' },
-    { text: 'Code Convention' },
-    { text: 'Competitor Analysis', bold: true },
-    { text: 'Wireframes' }
-  ],
-  Goals: [
-    { text: 'MVP' },
-    { text: 'Launch Plans', bold: true }
-  ]
-};
 
 const getDotColor = (title) => {
   switch (title) {
@@ -52,7 +29,7 @@ const WindowControls = () => (
   </Box>
 );
 
-const Column = ({ title, items }) => (
+const Column = ({ title, sourceCount, createdAt }) => (
   <Paper
     elevation={0}
     sx={{
@@ -81,33 +58,55 @@ const Column = ({ title, items }) => (
       </Typography>
     </Box>
 
-    {items.map((item, idx) => (
-      <Paper
-        key={idx}
-        elevation={0}
-        sx={{
-          border: '1px solid #e0e0e0',
-          borderRadius: '8px',
-          py: 0.8,
-          px: 1.5,
-          fontSize: '13px',
-          lineHeight: 1.4,
-          color: '#2f3437',
-          mb: 1,
-          backgroundColor: '#fff',
-          boxShadow: '-1px 2px 44px -15px rgba(0, 0, 0, 0.3)',
+    <Paper
+      elevation={0}
+      sx={{
+        border: '1px solid #e0e0e0',
+        borderRadius: '8px',
+        py: 1.2,
+        px: 1.5,
+        fontSize: '13px',
+        lineHeight: 1.4,
+        color: '#2f3437',
+        mb: 1,
+        backgroundColor: '#fff',
+        boxShadow: '-1px 2px 44px -15px rgba(0, 0, 0, 0.3)',
           transition: 'box-shadow 0.2s ease-in-out',
           '&:hover': {
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
             borderColor: '#bdbdbd'
           }
-        }}
-      >
-        <Typography fontWeight={600} color='#6F6F6F' fontSize="13px">
-          {item.text}
-        </Typography>
-      </Paper>
-    ))}
+      }}
+    >
+      <Typography fontWeight={600} fontSize="14px" color="#2f3437">
+        Source Count: {sourceCount}
+      </Typography>
+    </Paper>
+
+    <Paper
+      elevation={0}
+      sx={{
+        border: '1px solid #e0e0e0',
+        borderRadius: '8px',
+        py: 1.2,
+        px: 1.5,
+        fontSize: '13px',
+        lineHeight: 1.4,
+        color: '#2f3437',
+        mb: 1,
+        backgroundColor: '#fff',
+        boxShadow: '-1px 2px 44px -15px rgba(0, 0, 0, 0.3)',
+          transition: 'box-shadow 0.2s ease-in-out',
+          '&:hover': {
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+            borderColor: '#bdbdbd'
+          }
+      }}
+    >
+      <Typography fontSize="12px" color="#757575">
+        Created: {new Date(createdAt).toLocaleDateString()}
+      </Typography>
+    </Paper>
 
     <Paper
       elevation={0}
@@ -131,8 +130,10 @@ const Column = ({ title, items }) => (
   </Paper>
 );
 
+
 export default function NotebookLMUI() {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [notebooks, setNotebooks] = useState([]);
   const dispatch = useDispatch();
 
   const handleOpenDrawer = () => setOpenDrawer(true);
@@ -144,6 +145,20 @@ export default function NotebookLMUI() {
       sourceCount:5
     }))
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch(getNotebook()).unwrap(); 
+         console.log("====response========", response)
+        setNotebooks(response); 
+      } catch (error) {
+        console.error('Failed to fetch notebooks:', error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', pt: 4 }}>
@@ -405,21 +420,26 @@ export default function NotebookLMUI() {
         </Box>
 
         {/* Columns */}
-        <Box
-          sx={{
-            display: 'flex',
-            gap: { xs: 1, md: 3 },
-            px: { xs: 2, md: 4 },
-            pb: 4,
-            overflowX: 'visible',
-            alignItems: 'flex-start',
-            flexWrap: 'wrap'
-          }}
-        >
-          {Object.entries(boardData).map(([key, value]) => (
-            <Column key={key} title={key} items={value} />
-          ))}
-        </Box>
+       <Box
+        sx={{
+          display: 'flex',
+          gap: { xs: 1, md: 3 },
+          px: { xs: 2, md: 4 },
+          pb: 4,
+          overflowX: 'visible',
+          alignItems: 'flex-start',
+          flexWrap: 'wrap'
+        }}
+      >
+        { notebooks.map((notebook) => (
+          <Column
+            key={notebook._id}
+            title={notebook.title}
+            sourceCount={notebook.sourceCount}
+            createdAt={notebook.createdAt}
+          />
+        ))}
+      </Box>
       </Box>
 
       {/* Drawer for Hamburger Menu on xs */}

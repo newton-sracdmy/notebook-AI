@@ -11,7 +11,6 @@ export const createNotebook = createAsyncThunk(
         Authorization: `Bearer ${getState().authReducer.token}`,
       },
     };
-    console.log("=========config======",config)
 
     const {
       data: { data },
@@ -31,7 +30,7 @@ export const getNotebook = createAsyncThunk(
 
     const {
       data: { data },
-    } = await hyperAudion.get(`/notebook`, notebookData, config);
+    } = await hyperAudion.get(`/notebook`, config);
     return data;
   }
 );
