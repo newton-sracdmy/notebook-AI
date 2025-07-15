@@ -10,9 +10,9 @@ const App = () => (
 <ThemeProvider theme={theme}>
   <Router>
     <Routes>
-      <Route path="/" element={<NotebookLMUI />} />
+      <Route path="/home" element={<NotebookLMUI />} />
       <Route path="/notebook" element={<NotebookLMInterface />} />
-      <Route path="/login" element = {< AuthUI />} />
+      <Route path="/" element = {< AuthUI />} />
        <Route path="/pricing" element = {< PricingNotebookLm />} />
     </Routes>
   </Router>

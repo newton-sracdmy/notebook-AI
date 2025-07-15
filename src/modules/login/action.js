@@ -19,11 +19,12 @@ export const verifyOTP = createAsyncThunk(
   async (userData, { rejectWithValue }) => { 
   try{
   const response = await hyperAudion.post(`/auth/otp/verify`, userData);
-  const { user, token } = response.data.data;
-  localStorage.setItem("token", token)
-  return { user, token };
+  const { user, accessToken } = response.data.data;
+  localStorage.setItem("token", accessToken);
+  return { user, token:accessToken };
   }
  catch(error){
     return rejectWithValue(error.response?.data?.message || "OTP verification failed!");
 }
 });
+

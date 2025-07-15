@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import './AuthUI.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendOTP, verifyOTP } from './action';
+import { useNavigate } from 'react-router-dom';
 
 const AuthUI = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -11,6 +12,7 @@ const AuthUI = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
   const otpRefs = useRef([]);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const auth = useSelector((state)=> state.auth);
@@ -76,6 +78,7 @@ const  handleSubmit = async (e)=> {
       .unwrap()
       .then(() => {
         setIsLoggedIn(true);
+        navigate('/home');
       })
       .catch((error) => {
         alert(error); 

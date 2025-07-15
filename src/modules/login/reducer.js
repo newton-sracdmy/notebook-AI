@@ -1,58 +1,50 @@
-// src/redux/slices/authSlice.js
-import { createSlice } from '@reduxjs/toolkit';
-import { sendOTP, verifyOTP } from './action';
-
+import { createSlice } from "@reduxjs/toolkit";
+import { verifyOTP } from "./action";
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "authReducer",
   initialState: {
+    user: null,
+    token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
-    otpSent: false,
-    isLoggedIn: false,
-    user: null,
-    token: null,
+    isAuthenticated: !!localStorage.getItem("token"),
   },
   reducers: {
-    logout(state) {
-      state.isLoggedIn = false;
+    logoutUser: (state) => {
       state.user = null;
       state.token = null;
-      state.otpSent = false;
+      state.error = null;
       localStorage.removeItem("token");
+      state.permissions = {};
+      state.isAuthenticated = false;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(sendOTP.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(sendOTP.fulfilled, (state, action) => {
-        state.loading = false;
-        state.otpSent = true;
-      })
-      .addCase(sendOTP.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
       .addCase(verifyOTP.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(verifyOTP.fulfilled, (state, action) => {
         state.loading = false;
-        state.isLoggedIn = true;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        state.permissions = action.payload.user.permissions || {};
+        state.error = null;
+        state.isAuthenticated = true;
+        
+        localStorage.setItem("user", action.payload.user);
+        localStorage.setItem("token", action.payload.token);
+        console.log("===========action.payload.token========", action.payload.token);
       })
       .addCase(verifyOTP.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuthenticated = false;
       });
-  }
+  },
 });
 
-export const { logout } = authSlice.actions;
+export const { logoutUser } = authSlice.actions;
 export default authSlice.reducer;

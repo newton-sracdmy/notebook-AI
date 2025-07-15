@@ -7,6 +7,8 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PeopleIcon from '@mui/icons-material/People';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createNotebook } from './action';
 
 const boardData = {
   Ideas: [
@@ -131,9 +133,17 @@ const Column = ({ title, items }) => (
 
 export default function NotebookLMUI() {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const dispatch = useDispatch();
 
   const handleOpenDrawer = () => setOpenDrawer(true);
   const handleCloseDrawer = () => setOpenDrawer(false);
+
+  const handleCreateNotebook = async () =>{
+    await dispatch (createNotebook({
+      title:'Untitled notebook' ,
+      sourceCount:5
+    }))
+  }
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', pt: 4 }}>
@@ -311,6 +321,7 @@ export default function NotebookLMUI() {
             variant="outlined"
             fullWidth
             size="small"
+            onClick={handleCreateNotebook}
             sx={{
               textTransform: 'none',
               fontSize: { xs: 0, sm: '13px' },
