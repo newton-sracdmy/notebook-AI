@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { createNotebook, deleteNotebook, getNotebook, updateNotebook } from './action';
 import Column from './Column';
 import EditNotebookDialog from './EditNotebookDialog';
+import { useNavigate } from 'react-router-dom';
 
 
 const WindowControls = () => (
@@ -27,18 +28,27 @@ export default function NotebookLMUI() {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedNotebook, setSelectedNotebook] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const handleOpenDrawer = () => setOpenDrawer(true);
   const handleCloseDrawer = () => setOpenDrawer(false);
 
-  const handleCreateNotebook = async () =>{
-    await dispatch (createNotebook({
-      title:'Untitled notebook' ,
-      sourceCount:5
-    }))
-    const response = await dispatch(getNotebook()).unwrap(); 
-     setNotebooks(response); 
+  const handleCreateNotebook = async () => {
+  try {
+    const created = await dispatch(createNotebook({
+      title: 'Untitled notebook',
+      sourceCount: 5
+    })).unwrap();
+    
+    if (created && created._id) {
+      navigate(`/notebook/${created._id}`); 
+    }
+    
+  } catch (error) {
+    console.error('Notebook creation failed:', error);
   }
+};
 
   useEffect(() => {
     const fetchData = async () => {

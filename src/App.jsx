@@ -11,7 +11,7 @@ const App = () => (
   <Router>
     <Routes>
       <Route path="/home" element={<NotebookLMUI />} />
-      <Route path="/notebook" element={<NotebookLMInterface />} />
+      <Route path="/notebook/:id" element={<NotebookLMInterface />} />
       <Route path="/" element = {< AuthUI />} />
        <Route path="/pricing" element = {< PricingNotebookLm />} />
     </Routes>
