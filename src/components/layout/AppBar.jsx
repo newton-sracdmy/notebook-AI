@@ -70,6 +70,9 @@ const ShareDialog = ({ open, onClose }) => {
           p: 1
         }
       }}
+      sx={{
+        zIndex: 1300, // Higher than AppBar
+      }}
     >
       <DialogContent sx={{ p: 4 }}>
         {/* Header */}
@@ -244,6 +247,9 @@ const SettingsMenu = ({ anchorEl, open, onClose }) => {
       }}
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      sx={{
+        zIndex: 1200, // Higher than AppBar but lower than Dialog
+      }}
     >
       <MenuItem onClick={() => handleMenuItemClick('help')} sx={{ py: 1.5 }}>
         <ListItemIcon sx={{ minWidth: 36 }}>
@@ -333,9 +339,13 @@ const AppBar = ({ isMobile }) => {
         elevation={0}
         sx={{
           backgroundColor: '#ECECEC',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1100, // Fixed z-index
+          width: '100%',
         }}
       >
-        <Toolbar sx={{ px: 3 }}>
+        <Toolbar sx={{ px: 3, minHeight: '64px' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mr: 3 }}>
             <Box
               sx={{

@@ -8,7 +8,6 @@ import {
   Pause, PlayArrow, PanTool, Refresh
 } from '@mui/icons-material';
 
-// Mock data
 const mockData = {
   notebook: {
     deepDive: {
@@ -21,7 +20,7 @@ const mockData = {
 const StudioPanel = ({ isCollapsed = false, onToggle = () => {}, isMobile = false }) => {
   const [currentView, setCurrentView] = useState('initial');
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(true); // Enable wave effect by default
+  const [isSpeaking, setIsSpeaking] = useState(true);
 
   const handleGenerate = () => {
     setCurrentView('generating');
